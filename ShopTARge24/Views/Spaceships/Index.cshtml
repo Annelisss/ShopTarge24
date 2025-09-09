@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ShopTarge24.Models.SpaceshipIndexViewModel>
+
+<div>
+	<a asp-action="create" asp-asp-controller="Spaceships" type="subnit" class="btn btn-primary">Create</a>
+
+</div>
+<div class="h1">
+	Spaceships
+</div>
+<form method="post">
+	<tabel class="table tabel+hover">
+		<thead>
+			<tr>
+				<th scope="col">Nr</th>
+				<th scope="col">Name</th>
+				<th scope="col">Type</th>
+				<th scope="col">Build Date</th>
+				<th scope="col">Crew</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var spaceship in Model)
+			{
+				<tr>
+					<td></td>
+					<td>@spaceschip.Name</td>
+					<td>@spaceship.Classification</td>
+					<td>@spaceship.BuildDaten</td>
+					<td>@spaceship.Crew</td>
+				</tr>
+			}
+		</tbody>
+	</tabel>
+</form>
