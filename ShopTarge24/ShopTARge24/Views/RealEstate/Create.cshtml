@@ -1,0 +1,37 @@
+﻿@model ShopTARge24.Core.Domain.RealEstate
+@{
+    ViewData["Title"] = "Lisa kinnisvara";
+}
+<h1>Lisa kinnisvara</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="row g-2">
+        <div class="col">
+            <label class="form-label">Area (m²)</label>
+            <input asp-for="Area" class="form-control" />
+        </div>
+        <div class="col">
+            <label class="form-label">Rooms</label>
+            <input asp-for="RoomNumber" class="form-control" />
+        </div>
+        <div class="col">
+            <label class="form-label">Building Type</label>
+            <input asp-for="BuildingType" class="form-control" />
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-primary">Salvesta</button>
+        <a asp-action="Index" class="btn btn-secondary">Tagasi</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

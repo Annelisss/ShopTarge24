@@ -1,0 +1,18 @@
+﻿@model ShopTARge24.Core.Domain.RealEstate
+@{
+    ViewData["Title"] = "Kustuta kinnisvara";
+}
+<h1>Kustuta kinnisvara</h1>
+<p>Kas soovid kindlasti kustutada?</p>
+
+<ul>
+    <li>@Model.Location</li>
+    <li>@Model.Area m², Rooms: @Model.RoomNumber</li>
+    <li>@Model.BuildingType</li>
+</ul>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Kustuta</button>
+    <a asp-action="Index" class="btn btn-secondary">Tühista</a>
+</form>

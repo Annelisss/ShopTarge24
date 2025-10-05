@@ -1,4 +1,6 @@
-﻿namespace ShopTARge24.Core.Dto
+﻿using System;
+
+namespace ShopTARge24.Core.Dto
 {
     public class RealEstateDto
     {

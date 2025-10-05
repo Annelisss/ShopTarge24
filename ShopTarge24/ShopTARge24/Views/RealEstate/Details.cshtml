@@ -1,0 +1,25 @@
+﻿@model ShopTARge24.Core.Domain.RealEstate
+@{
+    ViewData["Title"] = "Detailid";
+}
+<h1>Detailid</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Location</dt>
+    <dd class="col-sm-9">@Model.Location</dd>
+    <dt class="col-sm-3">Area</dt>
+    <dd class="col-sm-9">@Model.Area</dd>
+    <dt class="col-sm-3">Rooms</dt>
+    <dd class="col-sm-9">@Model.RoomNumber</dd>
+    <dt class="col-sm-3">Building Type</dt>
+    <dd class="col-sm-9">@Model.BuildingType</dd>
+    <dt class="col-sm-3">Created</dt>
+    <dd class="col-sm-9">@Model.CreatedAt?.ToLocalTime()</dd>
+    <dt class="col-sm-3">Modified</dt>
+    <dd class="col-sm-9">@Model.ModifiedAt?.ToLocalTime()</dd>
+</dl>
+
+<p>
+    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Muuda</a>
+    <a class="btn btn-outline-secondary" asp-action="Index">Tagasi</a>
+</p>

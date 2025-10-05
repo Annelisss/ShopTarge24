@@ -1,1 +1,37 @@
-﻿RealEstate test
+﻿@model List<ShopTARge24.Core.Domain.RealEstate>
+@{
+    ViewData["Title"] = "Real Estate";
+}
+<h1>Real Estate</h1>
+
+<p><a class="btn btn-success" asp-action="Create">Lisa uus</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Area (m²)</th>
+            <th>Rooms</th>
+            <th>Building Type</th>
+            <th>Created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@(e.Location ?? "-")</td>
+                <td>@(e.Area?.ToString("N2") ?? "-")</td>
+                <td>@e.RoomNumber</td>
+                <td>@(e.BuildingType ?? "-")</td>
+                <td>@(e.CreatedAt.HasValue ? e.CreatedAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm") : "-")</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@e.Id">Vaata</a>
+                    <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@e.Id">Muuda</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@e.Id">Kustuta</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
