@@ -21,5 +21,7 @@ namespace ShopTARge24.Core.Domain
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public ICollection<KindergartenFile> Files { get; set; } = new List<KindergartenFile>();
+
     }
 }

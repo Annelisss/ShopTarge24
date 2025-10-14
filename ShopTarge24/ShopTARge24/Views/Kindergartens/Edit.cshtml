@@ -53,6 +53,37 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<hr />
+<h4>Pildid</h4>
+
+<form asp-action="Upload" method="post" enctype="multipart/form-data" class="mb-3">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="file" name="files" multiple accept="image/*" class="form-control mb-2" />
+    <button type="submit" class="btn btn-primary">Laadi üles</button>
+</form>
+
+@if (Model.Files?.Any() == true)
+{
+    <div class="row">
+        @foreach (var f in Model.Files)
+        {
+            <div class="col-md-3 text-center mb-3">
+                <img src="@Url.Action("Photo", "Kindergartens", new { id = f.Id })"
+                     class="img-thumbnail" style="max-height:160px; object-fit:cover;" alt="@f.FileName" />
+                <div class="small mt-1">@f.FileName</div>
+                <form asp-action="DeletePhoto" method="post" class="mt-1">
+                    <input type="hidden" name="id" value="@f.Id" />
+                    <input type="hidden" name="kindergartenId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Kustuta pilt</button>
+                </form>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">Pilte pole veel lisatud.</p>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
