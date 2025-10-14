@@ -47,6 +47,28 @@
             @Html.DisplayFor(model => model.UpdatedAt)
         </dd>
     </dl>
+    <hr />
+    <h4>Pildid</h4>
+
+    @if (Model?.Files?.Any() == true)
+    {
+        <div class="row">
+            @foreach (var f in Model.Files)
+            {
+                <div class="col-md-3 mb-3">
+                    <img src="@Url.Action("Photo", "Kindergartens", new { id = f.Id })"
+                         class="img-thumbnail" style="max-height:160px; object-fit:cover;" alt="@f.FileName" />
+                    <div class="small text-muted mt-1">@f.FileName</div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Pilte pole lisatud.</p>
+    }
+
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
