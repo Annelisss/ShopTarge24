@@ -97,5 +97,32 @@ namespace ShopTARge24.ApplicationServices.Services
 
             return null;
         }
+
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+            //toimub kontroll, kas on v'hemalt [ks fail v]i mitu
+            if(dto.Files != null && dto.Files.Count > 0)
+            {
+                //tuleb kasutada foreachi et mitu faili [lesse laadida
+                foreach (var file in dto.Files)
+                {
+                    //foreachi sees tuleb kasutada using-t
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            RealEstateId = domain.Id
+                        };
+
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FileToDatabases.Add(files);
+                    }
+                }
+            }
+        }
     }
 }

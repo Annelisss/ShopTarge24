@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ShopTARge24.Core.Domain;
+﻿using ShopTARge24.Core.Domain;
+using ShopTARge24.Core.Dto;
 
 namespace ShopTARge24.Core.ServiceInterface
 {
     public interface IRealEstateServices
     {
-        Task<List<RealEstate>> GetAllAsync();
-        Task<RealEstate?> GetAsync(Guid id);
-        Task<RealEstate> CreateAsync(RealEstate entity);
-        Task<RealEstate?> UpdateAsync(Guid id, RealEstate entity);
-        Task<bool> DeleteAsync(Guid id);
+        Task<RealEstate> Create(RealEstateDto dto);
+        Task<RealEstate> Update(RealEstateDto dto);
+        Task<RealEstate> DetailAsync(Guid id);
+        Task<RealEstate> Delete(Guid id);
     }
 }

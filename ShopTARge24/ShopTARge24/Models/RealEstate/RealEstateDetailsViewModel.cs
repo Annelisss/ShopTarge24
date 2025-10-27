@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using ShopTARge24.Core.Domain;
-
-namespace ShopTARge24.Core.Dto
+﻿namespace ShopTARge24.Models.RealEstate
 {
-    public class RealEstateDto
+    public class RealEstateDetailsViewModel
     {
         public Guid? Id { get; set; }
         public double? Area { get; set; }
@@ -11,9 +8,8 @@ namespace ShopTARge24.Core.Dto
         public int? RoomNumber { get; set; }
         public string? BuildingType { get; set; }
 
-        public List<IFormFile> Files { get; set; }
-        public IEnumerable<FileToDatabaseDto> Image { get; set; }
-            = new List<FileToDatabaseDto>();
+        public List<RealEstateImageViewModel> Images { get; set; }
+            = new List<RealEstateImageViewModel>();
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }

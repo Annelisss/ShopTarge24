@@ -1,37 +1,45 @@
-﻿@model List<ShopTARge24.Core.Domain.RealEstate>
+﻿@model IEnumerable<ShopTARge24.Models.RealEstate.RealEstateIndexViewModel>
+
 @{
-    ViewData["Title"] = "Real Estate";
+    int rowNumber = 1;
 }
-<h1>Real Estate</h1>
 
-<p><a class="btn btn-success" asp-action="Create">Lisa uus</a></p>
+<div>
+    <a asp-action="create" asp-controller="realEstate" type="submit" class="btn btn-primary">Create</a>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Location</th>
-            <th>Area (m²)</th>
-            <th>Rooms</th>
-            <th>Building Type</th>
-            <th>Created</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var e in Model)
-        {
+<div class="h1">
+    RealEstate
+</div>
+<form method="get">
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td>@(e.Location ?? "-")</td>
-                <td>@(e.Area?.ToString("N2") ?? "-")</td>
-                <td>@e.RoomNumber</td>
-                <td>@(e.BuildingType ?? "-")</td>
-                <td>@(e.CreatedAt.HasValue ? e.CreatedAt.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm") : "-")</td>
-                <td class="text-end">
-                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@e.Id">Vaata</a>
-                    <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@e.Id">Muuda</a>
-                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@e.Id">Kustuta</a>
-                </td>
+                <th scope="col">Nr</th>
+                <th scope="col">Id</th>
+                <th scope="col">Area</th>
+                <th scope="col">Building Type</th>
+                <th scope="col">Room nr</th>
+                <th scope="col"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var realEstate in Model)
+            {
+                <tr>
+                    <td>@rowNumber</td>
+                    <td>@realEstate.Id</td>
+                    <td>@realEstate.Area</td>
+                    <td>@realEstate.BuildingType</td>
+                    <td>@realEstate.RoomNumber</td>
+                    <td>
+                        <a asp-action="details" asp-controller="realEstate" asp-route-id="@realEstate.Id" class="btn btn-primary">Details</a>
+                        <a asp-action="update" asp-controller="realEstate" asp-route-id="@realEstate.Id" class="btn btn-primary">Update</a>
+                        <a asp-action="delete" asp-controller="realEstate" asp-route-id="@realEstate.Id" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                rowNumber += 1;
+            }
+        </tbody>
+    </table>
+</form>
