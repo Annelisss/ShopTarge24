@@ -416,3 +416,4 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/ShopTARge24/ShopTARge24.ApplicationServices/Services/WeatherForecastServices.cs
