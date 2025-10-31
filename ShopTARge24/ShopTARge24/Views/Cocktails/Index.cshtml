@@ -14,8 +14,16 @@
         </div>
         <div class="container">
             <div class="form-group col-md-offset-3 col-md-5">
-                <button asp-controller="cocktails" asp-action="searchCocktails" class="btn btn-primary">Search</button>
+                <button asp-controller="Cocktails" asp-action="SearchCocktails" class="btn btn-primary">Search</button>
             </div>
         </div>
     </form>
+
+    @* 👉 SEE ON UUS OSA *@
+    @if (ViewBag.Message != null)
+    {
+        <div class="form-group col-md-offset-3 col-md-5" style="margin-top:10px">
+            <p class="text-danger">@ViewBag.Message</p>
+        </div>
+    }
 </div>

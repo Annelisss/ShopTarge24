@@ -3,17 +3,13 @@ using ShopTARge24.Core.Dto.CocktailDtos;
 using ShopTARge24.Core.ServiceInterface;
 using ShopTARge24.Models.Cocktail;
 
-
 namespace ShopTARge24.Controllers
 {
     public class CocktailsController : Controller
     {
         private readonly ICocktailServices _cocktailServices;
 
-        public CocktailsController
-            (
-                ICocktailServices cocktailServices
-            )
+        public CocktailsController(ICocktailServices cocktailServices)
         {
             _cocktailServices = cocktailServices;
         }
@@ -31,73 +27,89 @@ namespace ShopTARge24.Controllers
                 return RedirectToAction("Cocktail", "Cocktails", new { cocktail = model.SearchCocktail });
             }
 
-            return View(model);
+            // kui mudel ei olnud ok, jää otsingu lehele
+            return View("Index", model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Cocktail(string cocktail)
         {
+            // 1) teeme DTO
             CocktailResultDto dto = new()
             {
                 StrDrink = cocktail
             };
 
+            // 2) kutsume service
             var cocktailResult = await _cocktailServices.GetCocktails(dto);
 
-            CocktailViewModel vm = new();
+            // 3) KONTROLL – kui ei leitud
+            if (cocktailResult == null || cocktailResult.Drinks == null || !cocktailResult.Drinks.Any())
+            {
+                ViewBag.Message = $"Kokteili „{cocktail}” ei leitud.";
+                return View("Index");
+            }
 
-            vm.IdDrink = cocktailResult.Drinks[0].IdDrink;
-            vm.StrDrink = cocktailResult.Drinks[0].StrDrink;
-            vm.StrDrinkAlternate = cocktailResult.Drinks[0].StrDrinkAlternate;
-            vm.StrTags = cocktailResult.Drinks[0].StrTags;
-            vm.StrVideo = cocktailResult.Drinks[0].StrVideo;
-            vm.StrCategory = cocktailResult.Drinks[0].StrCategory;
-            vm.StrIBA = cocktailResult.Drinks[0].StrIBA;
-            vm.StrAlcoholic = cocktailResult.Drinks[0].StrAlcoholic;
-            vm.StrGlass = cocktailResult.Drinks[0].StrGlass;
-            vm.StrInstructions = cocktailResult.Drinks[0].StrInstructions;
-            vm.StrInstructionsES = cocktailResult.Drinks[0].StrInstructionsES;
-            vm.StrInstructionsDE = cocktailResult.Drinks[0].StrInstructionsDE;
-            vm.StrInstructionsFR = cocktailResult.Drinks[0].StrInstructionsFR;
-            vm.StrInstructionsIT = cocktailResult.Drinks[0].StrInstructionsIT;
-            vm.StrInstructionsZHHANS = cocktailResult.Drinks[0].StrInstructionsZHHANS;
-            vm.StrInstructionsZHHANT = cocktailResult.Drinks[0].StrInstructionsZHHANT;
-            vm.StrDrinkThumb = cocktailResult.Drinks[0].StrDrinkThumb;
-            vm.StrIngredient1 = cocktailResult.Drinks[0].StrIngredient1;
-            vm.StrIngredient2 = cocktailResult.Drinks[0].StrIngredient2;
-            vm.StrIngredient3 = cocktailResult.Drinks[0].StrIngredient3;
-            vm.StrIngredient4 = cocktailResult.Drinks[0].StrIngredient4;
-            vm.StrIngredient5 = cocktailResult.Drinks[0].StrIngredient5;
-            vm.StrIngredient6 = cocktailResult.Drinks[0].StrIngredient6;
-            vm.StrIngredient7 = cocktailResult.Drinks[0].StrIngredient7;
-            vm.StrIngredient8 = cocktailResult.Drinks[0].StrIngredient8;
-            vm.StrIngredient9 = cocktailResult.Drinks[0].StrIngredient9;
-            vm.StrIngredient10 = cocktailResult.Drinks[0].StrIngredient10;
-            vm.StrIngredient11 = cocktailResult.Drinks[0].StrIngredient11;
-            vm.StrIngredient12 = cocktailResult.Drinks[0].StrIngredient12;
-            vm.StrIngredient13 = cocktailResult.Drinks[0].StrIngredient13;
-            vm.StrIngredient14 = cocktailResult.Drinks[0].StrIngredient14;
-            vm.StrIngredient15 = cocktailResult.Drinks[0].StrIngredient15;
-            vm.StrMeasure1 = cocktailResult.Drinks[0].StrMeasure1;
-            vm.StrMeasure2 = cocktailResult.Drinks[0].StrMeasure2;
-            vm.StrMeasure3 = cocktailResult.Drinks[0].StrMeasure3;
-            vm.StrMeasure4 = cocktailResult.Drinks[0].StrMeasure4;
-            vm.StrMeasure5 = cocktailResult.Drinks[0].StrMeasure5;
-            vm.StrMeasure6 = cocktailResult.Drinks[0].StrMeasure6;
-            vm.StrMeasure7 = cocktailResult.Drinks[0].StrMeasure7;
-            vm.StrMeasure8 = cocktailResult.Drinks[0].StrMeasure8;
-            vm.StrMeasure9 = cocktailResult.Drinks[0].StrMeasure9;
-            vm.StrMeasure10 = cocktailResult.Drinks[0].StrMeasure10;
-            vm.StrMeasure11 = cocktailResult.Drinks[0].StrMeasure11;
-            vm.StrMeasure12 = cocktailResult.Drinks[0].StrMeasure12;
-            vm.StrMeasure13 = cocktailResult.Drinks[0].StrMeasure13;
-            vm.StrMeasure14 = cocktailResult.Drinks[0].StrMeasure14;
-            vm.StrMeasure15 = cocktailResult.Drinks[0].StrMeasure15;
-            vm.StrImageSource = cocktailResult.Drinks[0].StrImageSource;
-            vm.StrImageAttribution = cocktailResult.Drinks[0].StrImageAttribution;
-            vm.StrCreativeCommonsConfirmed = cocktailResult.Drinks[0].StrCreativeCommonsConfirmed;
-            vm.DateModified = cocktailResult.Drinks[0].DateModified;
+            // 4) kui leiti, võtame esimese joogi
+            var drink = cocktailResult.Drinks[0];
 
+            // 5) täidame viewmodeli
+            CocktailViewModel vm = new()
+            {
+                IdDrink = drink.IdDrink,
+                StrDrink = drink.StrDrink,
+                StrDrinkAlternate = drink.StrDrinkAlternate,
+                StrTags = drink.StrTags,
+                StrVideo = drink.StrVideo,
+                StrCategory = drink.StrCategory,
+                StrIBA = drink.StrIBA,
+                StrAlcoholic = drink.StrAlcoholic,
+                StrGlass = drink.StrGlass,
+                StrInstructions = drink.StrInstructions,
+                StrInstructionsES = drink.StrInstructionsES,
+                StrInstructionsDE = drink.StrInstructionsDE,
+                StrInstructionsFR = drink.StrInstructionsFR,
+                StrInstructionsIT = drink.StrInstructionsIT,
+                StrInstructionsZHHANS = drink.StrInstructionsZHHANS,
+                StrInstructionsZHHANT = drink.StrInstructionsZHHANT,
+                StrDrinkThumb = drink.StrDrinkThumb,
+                StrIngredient1 = drink.StrIngredient1,
+                StrIngredient2 = drink.StrIngredient2,
+                StrIngredient3 = drink.StrIngredient3,
+                StrIngredient4 = drink.StrIngredient4,
+                StrIngredient5 = drink.StrIngredient5,
+                StrIngredient6 = drink.StrIngredient6,
+                StrIngredient7 = drink.StrIngredient7,
+                StrIngredient8 = drink.StrIngredient8,
+                StrIngredient9 = drink.StrIngredient9,
+                StrIngredient10 = drink.StrIngredient10,
+                StrIngredient11 = drink.StrIngredient11,
+                StrIngredient12 = drink.StrIngredient12,
+                StrIngredient13 = drink.StrIngredient13,
+                StrIngredient14 = drink.StrIngredient14,
+                StrIngredient15 = drink.StrIngredient15,
+                StrMeasure1 = drink.StrMeasure1,
+                StrMeasure2 = drink.StrMeasure2,
+                StrMeasure3 = drink.StrMeasure3,
+                StrMeasure4 = drink.StrMeasure4,
+                StrMeasure5 = drink.StrMeasure5,
+                StrMeasure6 = drink.StrMeasure6,
+                StrMeasure7 = drink.StrMeasure7,
+                StrMeasure8 = drink.StrMeasure8,
+                StrMeasure9 = drink.StrMeasure9,
+                StrMeasure10 = drink.StrMeasure10,
+                StrMeasure11 = drink.StrMeasure11,
+                StrMeasure12 = drink.StrMeasure12,
+                StrMeasure13 = drink.StrMeasure13,
+                StrMeasure14 = drink.StrMeasure14,
+                StrMeasure15 = drink.StrMeasure15,
+                StrImageSource = drink.StrImageSource,
+                StrImageAttribution = drink.StrImageAttribution,
+                StrCreativeCommonsConfirmed = drink.StrCreativeCommonsConfirmed,
+                DateModified = drink.DateModified
+            };
+
+            // 6) tagastame vaate
             return View(vm);
         }
     }
