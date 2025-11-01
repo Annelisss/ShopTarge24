@@ -1,0 +1,90 @@
+﻿@model ShopTARge24.Core.Domain.Kindergarten
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Kindergarten</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="GroupName" class="control-label"></label>
+                <input asp-for="GroupName" class="form-control" />
+                <span asp-validation-for="GroupName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChildrenCount" class="control-label"></label>
+                <input asp-for="ChildrenCount" class="form-control" />
+                <span asp-validation-for="ChildrenCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KindergartenName" class="control-label"></label>
+                <input asp-for="KindergartenName" class="form-control" />
+                <span asp-validation-for="KindergartenName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherName" class="control-label"></label>
+                <input asp-for="TeacherName" class="form-control" />
+                <span asp-validation-for="TeacherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedAt" class="control-label"></label>
+                <input asp-for="UpdatedAt" class="form-control" />
+                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<hr />
+<h4>Pildid</h4>
+
+<form asp-action="Upload" method="post" enctype="multipart/form-data" class="mb-3">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="file" name="files" multiple accept="image/*" class="form-control mb-2" />
+    <button type="submit" class="btn btn-primary">Laadi üles</button>
+</form>
+
+@if (Model.Files?.Any() == true)
+{
+    <div class="row">
+        @foreach (var f in Model.Files)
+        {
+            <div class="col-md-3 text-center mb-3">
+                <img src="@Url.Action("Photo", "Kindergartens", new { id = f.Id })"
+                     class="img-thumbnail" style="max-height:160px; object-fit:cover;" alt="@f.FileName" />
+                <div class="small mt-1">@f.FileName</div>
+                <form asp-action="DeletePhoto" method="post" class="mt-1">
+                    <input type="hidden" name="id" value="@f.Id" />
+                    <input type="hidden" name="kindergartenId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Kustuta pilt</button>
+                </form>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">Pilte pole veel lisatud.</p>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
