@@ -1,0 +1,86 @@
+﻿@model ShopTARge24.Models.Spaceships.SpaceshipCreateUpdateViewModel
+
+@{
+    var isEdit = Model.Id.HasValue;
+}
+
+<h1>@(isEdit ? "Edit" : "Create")</h1>
+
+<form asp-action="@(isEdit ? "Edit" : "Create")"
+      asp-controller="Spaceships"
+      method="post"
+      enctype="multipart/form-data">
+
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="CreatedAt" type="hidden" />
+    <input asp-for="ModifiedAt" type="hidden" />
+
+    <div class="form-group row mb-3">
+        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label asp-for="Classification" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Classification" class="form-control" />
+            <span asp-validation-for="Classification" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label asp-for="BuiltDate" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="BuiltDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="BuiltDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label asp-for="Crew" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Crew" class="form-control" />
+            <span asp-validation-for="Crew" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label asp-for="EnginePower" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="EnginePower" class="form-control" />
+            <span asp-validation-for="EnginePower" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Files" class="form-control" type="file" multiple />
+        </div>
+    </div>
+
+    @if (isEdit && Model.Image != null && Model.Image.Any())
+    {
+        <h5>Existing images</h5>
+        <div class="row mb-3">
+            @foreach (var img in Model.Image)
+            {
+                <div class="col-sm-3">
+                    <partial name="_Images" model="img" />
+                </div>
+            }
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success">
+        @(isEdit ? "Update" : "Create")
+    </button>
+    <a asp-action="Index" asp-controller="Spaceships" class="btn btn-secondary">Back</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

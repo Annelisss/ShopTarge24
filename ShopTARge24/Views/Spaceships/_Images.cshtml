@@ -1,0 +1,9 @@
+﻿@model ShopTARge24.Models.Spaceships.ImageViewModel
+
+@{
+    var photoPath = "~/multipleFileUpload/" + (Model.Filepath ?? "noimage.jpg");
+}
+
+<div class="form-group row col-sm-4">
+    <img class="card-image-top" src="@photoPath" asp-append-version="true" />
+</div>

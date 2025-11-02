@@ -1,0 +1,22 @@
+﻿@model ShopTARge24.Models.RealEstates.RealEstateIndexViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete RealEstate</h2>
+
+<p>Kas kustutame selle kinnisvara?</p>
+
+<ul>
+    <li><strong>Area:</strong> @Model.Area</li>
+    <li><strong>Location:</strong> @Model.Location</li>
+    <li><strong>RoomNumber:</strong> @Model.RoomNumber</li>
+    <li><strong>BuildingType:</strong> @Model.BuildingType</li>
+</ul>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Back</a>
+</form>

@@ -1,0 +1,55 @@
+﻿@model ShopTARge24.Models.Cocktail.CocktailViewModel
+
+<div class="container mt-4">
+    <h1 class="text-primary fw-bold mb-1">Discover new drinks</h1>
+    <h2 class="mb-4">@Model.StrDrink</h2>
+    <hr />
+
+    <div class="row align-items-start mb-4">
+        <div class="col-md-5 text-center">
+            @if (!string.IsNullOrEmpty(Model.StrDrinkThumb))
+            {
+                <img src="@Model.StrDrinkThumb" alt="@Model.StrDrink" class="img-fluid rounded shadow" />
+            }
+            else
+            {
+                <p class="text-muted"><em>No image available</em></p>
+            }
+
+            <div class="mt-3 text-start">
+                <p><strong>Category:</strong> @Model.StrCategory</p>
+                <p><strong>Alcoholic:</strong> @Model.StrAlcoholic</p>
+                <p><strong>Glass:</strong> @Model.StrGlass</p>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <h4 class="fw-semibold mb-2">Instructions</h4>
+            <p>@Model.StrInstructions</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <h4 class="fw-semibold">Ingredients</h4>
+    <ul class="list-unstyled">
+        @for (int i = 1; i <= 15; i++)
+        {
+            var ingredientProp = Model.GetType().GetProperty($"StrIngredient{i}");
+            var measureProp = Model.GetType().GetProperty($"StrMeasure{i}");
+            var ingredient = ingredientProp?.GetValue(Model)?.ToString();
+            var measure = measureProp?.GetValue(Model)?.ToString();
+
+            if (!string.IsNullOrWhiteSpace(ingredient))
+            {
+                <li class="mb-1">
+                    <span>• <strong>@ingredient</strong> @measure</span>
+                </li>
+            }
+        }
+    </ul>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-success">Back to search</a>
+    </div>
+</div>

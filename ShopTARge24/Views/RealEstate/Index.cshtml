@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ShopTARge24.Models.RealEstates.RealEstateIndexViewModel>
+
+@{
+    ViewData["Title"] = "RealEstate";
+    var nr = 1;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5">RealEstate</h1>
+    <a asp-action="Create" class="btn btn-primary btn-lg">Create</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nr</th>
+            <th>Area</th>
+            <th>Location</th>
+            <th>RoomNumber</th>
+            <th>BuildingType</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@nr</td>
+                <td>@item.Area</td>
+                <td>@item.Location</td>
+                <td>@item.RoomNumber</td>
+                <td>@item.BuildingType</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success me-2">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary me-2">Update</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+            nr++;
+        }
+    </tbody>
+</table>

@@ -1,0 +1,22 @@
+﻿@model ShopTARge24.Models.RealEstates.RealEstateIndexViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>RealEstate details</h2>
+
+<div class="mb-3">
+    <strong>Area:</strong> @Model.Area
+</div>
+<div class="mb-3">
+    <strong>Location:</strong> @Model.Location
+</div>
+<div class="mb-3">
+    <strong>RoomNumber:</strong> @Model.RoomNumber
+</div>
+<div class="mb-3">
+    <strong>BuildingType:</strong> @Model.BuildingType
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>
