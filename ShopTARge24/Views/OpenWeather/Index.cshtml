@@ -13,6 +13,7 @@
         <span asp-validation-for="City" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Get weather</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">Return</a>
 </form>
 
 @if (!ViewData.ModelState.IsValid)
