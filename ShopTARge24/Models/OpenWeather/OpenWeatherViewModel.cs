@@ -12,5 +12,9 @@ namespace ShopTARge24.Models.OpenWeather
         public string? Description { get; set; }
         public double? TempC { get; set; }
         public int? Humidity { get; set; }
+        public double? FeelsLike { get; set; }
+        public int? Pressure { get; set; }
+        public double? WindSpeed { get; set; }
+
     }
 }

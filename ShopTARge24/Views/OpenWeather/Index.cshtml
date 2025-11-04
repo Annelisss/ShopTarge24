@@ -30,18 +30,39 @@
     <div class="card" style="max-width: 400px;">
         <div class="card-body">
             <h5 class="card-title">@Model.CityName</h5>
+
             @if (Model.Description != null)
             {
                 <p class="card-text">@Model.Description</p>
             }
+
             @if (Model.TempC != null)
             {
                 <p class="card-text"><strong>Temperature:</strong> @Model.TempC°C</p>
             }
+
+            @if (Model.FeelsLike != null)
+            {
+                <p class="card-text"><strong>Feels like:</strong> @Model.FeelsLike°C</p>
+            }
+
             @if (Model.Humidity != null)
             {
                 <p class="card-text"><strong>Humidity:</strong> @Model.Humidity %</p>
             }
+
+            @if (Model.Pressure != null)
+            {
+                <p class="card-text"><strong>Pressure:</strong> @Model.Pressure hPa</p>
+            }
+
+            @if (Model.WindSpeed != null)
+            {
+                <p class="card-text">
+                    <strong>Wind speed:</strong> @(Math.Round(Model.WindSpeed.Value * 3.6, 2)) km/h
+                </p>
+            }
+
         </div>
     </div>
 }

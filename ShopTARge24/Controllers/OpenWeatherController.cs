@@ -39,7 +39,10 @@ namespace ShopTARge24.Controllers
             model.CityName = result.Name;
             model.Description = result.Weather?.FirstOrDefault()?.Description;
             model.TempC = result.Main?.Temp;
+            model.FeelsLike = result.Main?.Feels_Like;
             model.Humidity = result.Main?.Humidity;
+            model.Pressure = result.Main?.Pressure;
+            model.WindSpeed = result.Wind?.Speed;
 
             return View(model);
         }
