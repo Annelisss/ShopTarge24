@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;  
 using ShopTARge24.Core.Domain;
-using ShopTARge24.Core.Dto;   
+using ShopTARge24.Core.Dto;
 using ShopTARge24.Core.ServiceInterface;
 using ShopTARge24.Data;
+using System.Linq;
 
 namespace ShopTARge24.ApplicationServices.Services
 {
@@ -113,6 +115,70 @@ namespace ShopTARge24.ApplicationServices.Services
             await _context.SaveChangesAsync();
 
             return removed;
+        }
+
+        public async Task<List<FileToApi>> GetFiles(Guid entityId)
+        {
+            return await _context.FileToApis
+                .Where(x => x.KindergartenId == entityId || x.SpaceshipId == entityId)
+                .ToListAsync();
+        }
+
+        public async Task RemoveFile(Guid fileId)
+        {
+            var file = await _context.FileToApis
+                .FirstOrDefaultAsync(x => x.Id == fileId);
+
+            if (file == null)
+                return;
+
+            var filePath = Path.Combine(
+                _webHost.ContentRootPath,
+                "wwwroot",
+                "multipleFileUpload",
+                file.ExistingFilePath ?? string.Empty);
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            _context.FileToApis.Remove(file);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveKindergartenFiles(Guid kindergartenId, List<IFormFile> files)
+        {
+            if (files == null || files.Count == 0)
+                return;
+
+            var uploadRoot = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
+            if (!Directory.Exists(uploadRoot))
+            {
+                Directory.CreateDirectory(uploadRoot);
+            }
+
+            foreach (var file in files)
+            {
+                var uniqueName = $"{Guid.NewGuid()}_{file.FileName}";
+                var filePath = Path.Combine(uploadRoot, uniqueName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var dbFile = new FileToApi
+                {
+                    Id = Guid.NewGuid(),
+                    ExistingFilePath = uniqueName,
+                    KindergartenId = kindergartenId 
+                };
+
+                _context.FileToApis.Add(dbFile);
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

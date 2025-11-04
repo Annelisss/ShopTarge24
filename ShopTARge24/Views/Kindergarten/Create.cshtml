@@ -1,0 +1,45 @@
+﻿@model ShopTARge24.Core.Dto.KindergartenDto.KindergartenDto
+
+@{
+    ViewData["Title"] = "Create kindergarten";
+}
+
+<h1>Create kindergarten</h1>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="GroupName" class="form-label"></label>
+        <input asp-for="GroupName" class="form-control" />
+        <span asp-validation-for="GroupName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ChildrenCount" class="form-label"></label>
+        <input asp-for="ChildrenCount" class="form-control" />
+        <span asp-validation-for="ChildrenCount" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="KindergartenName" class="form-label"></label>
+        <input asp-for="KindergartenName" class="form-control" />
+        <span asp-validation-for="KindergartenName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TeacherName" class="form-label"></label>
+        <input asp-for="TeacherName" class="form-control" />
+        <span asp-validation-for="TeacherName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fotod (vali üks või mitu)</label>
+        <input type="file" name="files" multiple class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

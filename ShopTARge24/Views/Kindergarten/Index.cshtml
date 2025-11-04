@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ShopTARge24.Core.Domain.Kindergartens>             
+
+
+@{
+    ViewData["Title"] = "Kindergarten";
+}
+
+<h1>Kindergarten</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create new</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Group</th>
+            <th>Children</th>
+            <th>Kindergarten</th>
+            <th>Teacher</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.GroupName</td>
+                <td>@item.ChildrenCount</td>
+                <td>@item.KindergartenName</td>
+                <td>@item.TeacherName</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

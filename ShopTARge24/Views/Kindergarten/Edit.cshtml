@@ -1,0 +1,112 @@
+﻿@model ShopTARge24.Core.Dto.KindergartenDto.KindergartenDto
+@using ShopTARge24.Core.Domain
+
+@{
+    ViewData["Title"] = "Edit kindergarten";
+    var files = ViewBag.Files as List<FileToApi>;
+}
+
+<h1>Edit kindergarten</h1>
+
+<form id="edit-form" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="GroupName" class="form-label"></label>
+        <input asp-for="GroupName" class="form-control" />
+        <span asp-validation-for="GroupName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ChildrenCount" class="form-label"></label>
+        <input asp-for="ChildrenCount" class="form-control" />
+        <span asp-validation-for="ChildrenCount" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="KindergartenName" class="form-label"></label>
+        <input asp-for="KindergartenName" class="form-control" />
+        <span asp-validation-for="KindergartenName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TeacherName" class="form-label"></label>
+        <input asp-for="TeacherName" class="form-control" />
+        <span asp-validation-for="TeacherName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageName" class="form-label">Pildi nimi</label>
+        <input asp-for="ImageName" class="form-control" />
+        <span asp-validation-for="ImageName" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Olemasolevad pildid</label>
+        @if (files != null && files.Count > 0)
+        {
+            <div class="d-flex flex-wrap gap-3">
+                @foreach (var f in files)
+                {
+                    <div class="text-center">
+                        <img src="~/multipleFileUpload/@f.ExistingFilePath"
+                             style="max-width:120px" class="img-thumbnail" />
+                        <div>
+  
+                            <button type="submit"
+                                    form="delete-@f.Id"
+                                    class="btn btn-sm btn-outline-danger mt-1">
+                                Kustuta
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Pilte pole.</p>
+        }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Lisa uusi pilte</label>
+        <div id="fileInputs">
+            <input type="file" name="files" class="form-control mb-2" />
+        </div>
+        <button type="button" id="addFileBtn" class="btn btn-sm btn-outline-secondary">
+            Lisa veel pilt
+        </button>
+        <small class="text-muted d-block mt-1">Saad lisada mitu faili eraldi ridadena.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>
+
+@if (files != null && files.Count > 0)
+{
+    foreach (var f in files)
+    {
+        <form id="delete-@f.Id" asp-action="DeleteFile" method="post">
+            <input type="hidden" name="fileId" value="@f.Id" />
+            <input type="hidden" name="kindergartenId" value="@Model.Id" />
+            @Html.AntiForgeryToken()
+        </form>
+    }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("addFileBtn").addEventListener("click", function () {
+            const container = document.getElementById("fileInputs");
+            const input = document.createElement("input");
+            input.type = "file";
+            input.name = "files";
+            input.className = "form-control mb-2";
+            container.appendChild(input);
+        });
+    </script>
+}
