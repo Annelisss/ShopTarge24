@@ -1,0 +1,47 @@
+﻿@model ShopTARge24.Models.OpenWeather.OpenWeatherViewModel
+
+@{
+    ViewData["Title"] = "OpenWeather";
+}
+
+<h1>OpenWeather – Current Weather</h1>
+
+<form asp-action="Index" method="post" class="mb-3">
+    <div class="mb-3">
+        <label asp-for="City" class="form-label"></label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Get weather</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@e.ErrorMessage</div>
+        }
+    </div>
+}
+
+@if (Model.CityName != null)
+{
+    <div class="card" style="max-width: 400px;">
+        <div class="card-body">
+            <h5 class="card-title">@Model.CityName</h5>
+            @if (Model.Description != null)
+            {
+                <p class="card-text">@Model.Description</p>
+            }
+            @if (Model.TempC != null)
+            {
+                <p class="card-text"><strong>Temperature:</strong> @Model.TempC°C</p>
+            }
+            @if (Model.Humidity != null)
+            {
+                <p class="card-text"><strong>Humidity:</strong> @Model.Humidity %</p>
+            }
+        </div>
+    </div>
+}
