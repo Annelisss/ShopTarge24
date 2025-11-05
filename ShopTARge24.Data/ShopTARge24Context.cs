@@ -13,8 +13,9 @@ namespace ShopTARge24.Data
         public DbSet<Spaceships> Spaceships { get; set; }
         public DbSet<FileToApi> FileToApis { get; set; }
         public DbSet<RealEstate> RealEstates { get; set; }
-
         public DbSet<Kindergartens> Kindergartens { get; set; } = default!;
+
+        public DbSet<KindergartenFile> KindergartenFiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

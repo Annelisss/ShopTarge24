@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopTARge24.Core.Dto.KindergartenDto;
 using ShopTARge24.Core.ServiceInterface;
-using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace ShopTARge24.Controllers
 {
@@ -60,7 +60,6 @@ namespace ShopTARge24.Controllers
             return View(entity);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -93,14 +92,12 @@ namespace ShopTARge24.Controllers
 
             if (!ModelState.IsValid)
             {
-          
                 ViewBag.Files = await _fileService.GetFiles(id);
                 return View(dto);
             }
 
             await _service.Update(dto);
 
-       
             if (files != null && files.Count > 0)
             {
                 await _fileService.SaveKindergartenFiles(id, files);
@@ -109,13 +106,32 @@ namespace ShopTARge24.Controllers
             return RedirectToAction(nameof(Edit), new { id = id });
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFile(Guid fileId, Guid kindergartenId)
         {
             await _fileService.RemoveFile(fileId);
             return RedirectToAction(nameof(Edit), new { id = kindergartenId });
+        }
+
+      
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var entity = await _service.GetAsync(id);
+            if (entity == null)
+                return NotFound();
+
+            return View(entity);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            await _service.Delete(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

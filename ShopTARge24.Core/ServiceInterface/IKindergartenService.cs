@@ -1,7 +1,8 @@
-﻿using ShopTARge24.Core.Domain;
-using ShopTARge24.Core.Dto.KindergartenDto;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ShopTARge24.Core.Domain;
+using ShopTARge24.Core.Dto.KindergartenDto;
 
 namespace ShopTARge24.Core.ServiceInterface
 {
