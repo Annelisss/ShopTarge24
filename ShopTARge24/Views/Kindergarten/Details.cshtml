@@ -3,8 +3,7 @@
 
 @{
     ViewData["Title"] = "Kindergarten details";
-
-    var files = ViewBag.Files as List<FileToApi>;
+    var files = ViewBag.Files as List<KindergartenFile>;
 }
 
 <h1>Kindergarten details</h1>
@@ -29,17 +28,12 @@
             <div class="d-flex gap-3 flex-wrap">
                 @foreach (var f in files)
                 {
-                    <img src="~/multipleFileUpload/@f.ExistingFilePath"
-                         alt="photo"
+  
+                    <img src="~/multipleFileUpload/@f.FileName"
+                         alt="@f.OriginalFileName"
                          style="max-width:150px;" class="img-thumbnail" />
                 }
             </div>
-        }
-        else if (!string.IsNullOrEmpty(Model.ImageName))
-        {
-            <img src="~/uploads/@Model.ImageName"
-                 alt="photo"
-                 style="max-width:150px;" class="img-thumbnail" />
         }
         else
         {

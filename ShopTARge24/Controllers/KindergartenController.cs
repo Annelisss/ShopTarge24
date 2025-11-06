@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ShopTARge24.Core.Dto.KindergartenDto;
 using ShopTARge24.Core.ServiceInterface;
-using Microsoft.AspNetCore.Http;
+using ShopTARge24.Data;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ShopTARge24.Controllers
 {
@@ -9,13 +14,16 @@ namespace ShopTARge24.Controllers
     {
         private readonly IKindergartenService _service;
         private readonly IFileServices _fileService;
+        private readonly ShopTARge24Context _context;
 
         public KindergartenController(
             IKindergartenService service,
-            IFileServices fileService)
+            IFileServices fileService,
+            ShopTARge24Context context)
         {
             _service = service;
             _fileService = fileService;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
@@ -54,7 +62,10 @@ namespace ShopTARge24.Controllers
             if (entity == null)
                 return NotFound();
 
-            var files = await _fileService.GetFiles(id);
+            var files = await _context.KindergartenFiles
+                .Where(f => f.KindergartenId == id)
+                .ToListAsync();
+
             ViewBag.Files = files;
 
             return View(entity);
@@ -77,7 +88,11 @@ namespace ShopTARge24.Controllers
                 ImageName = entity.ImageName
             };
 
-            var files = await _fileService.GetFiles(id);
+ 
+            var files = await _context.KindergartenFiles
+                .Where(f => f.KindergartenId == id)
+                .ToListAsync();
+
             ViewBag.Files = files;
 
             return View(dto);
@@ -92,7 +107,11 @@ namespace ShopTARge24.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Files = await _fileService.GetFiles(id);
+
+                ViewBag.Files = await _context.KindergartenFiles
+                    .Where(f => f.KindergartenId == id)
+                    .ToListAsync();
+
                 return View(dto);
             }
 
@@ -110,11 +129,16 @@ namespace ShopTARge24.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFile(Guid fileId, Guid kindergartenId)
         {
-            await _fileService.RemoveFile(fileId);
+
+            var file = await _context.KindergartenFiles.FirstOrDefaultAsync(f => f.Id == fileId);
+            if (file != null)
+            {
+                _context.KindergartenFiles.Remove(file);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Edit), new { id = kindergartenId });
         }
-
-      
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)

@@ -3,6 +3,7 @@ using ShopTARge24.Core.Domain;
 using ShopTARge24.Core.Dto.KindergartenDto;
 using ShopTARge24.Core.ServiceInterface;
 using ShopTARge24.Data;
+using System.Linq;
 
 namespace ShopTARge24.ApplicationServices.Services
 {
@@ -38,7 +39,7 @@ namespace ShopTARge24.ApplicationServices.Services
                 ChildrenCount = dto.ChildrenCount,
                 KindergartenName = dto.KindergartenName,
                 TeacherName = dto.TeacherName,
-                ImageName = dto.ImageName,       
+                ImageName = dto.ImageName,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
@@ -61,7 +62,7 @@ namespace ShopTARge24.ApplicationServices.Services
             entity.ChildrenCount = dto.ChildrenCount;
             entity.KindergartenName = dto.KindergartenName;
             entity.TeacherName = dto.TeacherName;
-            entity.ImageName = dto.ImageName;    
+            entity.ImageName = dto.ImageName;
             entity.UpdatedAt = DateTime.Now;
 
             await _context.SaveChangesAsync();
@@ -70,12 +71,29 @@ namespace ShopTARge24.ApplicationServices.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var entity = await _context.Kindergartens.FirstOrDefaultAsync(k => k.Id == id);
+ 
+            var entity = await _context.Kindergartens
+                .FirstOrDefaultAsync(k => k.Id == id);
+
             if (entity == null)
                 return false;
 
+            var files = await _context.KindergartenFiles
+                .Where(f => f.KindergartenId == id)
+                .ToListAsync();
+
+ 
+            if (files.Any())
+            {
+                _context.KindergartenFiles.RemoveRange(files);
+            }
+
+
             _context.Kindergartens.Remove(entity);
+
+ 
             await _context.SaveChangesAsync();
+
             return true;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Http;  
+using Microsoft.AspNetCore.Http;
 using ShopTARge24.Core.Domain;
 using ShopTARge24.Core.Dto;
 using ShopTARge24.Core.ServiceInterface;
@@ -25,9 +25,7 @@ namespace ShopTARge24.ApplicationServices.Services
         public void FilesToApi(SpaceshipDto dto, Spaceships domain)
         {
             if (dto.Files == null || dto.Files.Count == 0)
-            {
                 return;
-            }
 
             var uploadRoot = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
             if (!Directory.Exists(uploadRoot))
@@ -64,9 +62,7 @@ namespace ShopTARge24.ApplicationServices.Services
                 .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
             if (image == null)
-            {
                 return null;
-            }
 
             var filePath = Path.Combine(
                 _webHost.ContentRootPath,
@@ -119,6 +115,7 @@ namespace ShopTARge24.ApplicationServices.Services
 
         public async Task<List<FileToApi>> GetFiles(Guid entityId)
         {
+
             return await _context.FileToApis
                 .Where(x => x.KindergartenId == entityId || x.SpaceshipId == entityId)
                 .ToListAsync();
@@ -168,14 +165,18 @@ namespace ShopTARge24.ApplicationServices.Services
                     await file.CopyToAsync(stream);
                 }
 
-                var dbFile = new FileToApi
+                var dbFile = new KindergartenFile
                 {
                     Id = Guid.NewGuid(),
-                    ExistingFilePath = uniqueName,
-                    KindergartenId = kindergartenId 
+                    KindergartenId = kindergartenId,
+                    FileName = uniqueName,            
+                    OriginalFileName = file.FileName,
+                    ContentType = file.ContentType ?? "",
+                    Size = file.Length,
+                    CreatedAt = DateTime.UtcNow
                 };
 
-                _context.FileToApis.Add(dbFile);
+                _context.KindergartenFiles.Add(dbFile);
             }
 
             await _context.SaveChangesAsync();
