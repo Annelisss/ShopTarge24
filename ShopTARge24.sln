@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARge24.Data", "ShopTAR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARge24", "ShopTARge24\ShopTARge24.csproj", "{7A67A01E-E52E-C034-19B0-2D2D23BCED8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopTARge24.KindergartenTests", "ShopTARge24.KindergartenTests\ShopTARge24.KindergartenTests.csproj", "{BEFB1F35-001A-480B-B9A0-304C15B9E8C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7A67A01E-E52E-C034-19B0-2D2D23BCED8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A67A01E-E52E-C034-19B0-2D2D23BCED8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A67A01E-E52E-C034-19B0-2D2D23BCED8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEFB1F35-001A-480B-B9A0-304C15B9E8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFB1F35-001A-480B-B9A0-304C15B9E8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFB1F35-001A-480B-B9A0-304C15B9E8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFB1F35-001A-480B-B9A0-304C15B9E8C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

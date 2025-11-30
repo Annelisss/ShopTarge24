@@ -7,6 +7,7 @@ using ShopTARge24.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ShopTARge24.Controllers
 {
@@ -40,7 +41,7 @@ namespace ShopTARge24.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(KindergartenDto dto, List<IFormFile> files)
+        public async Task<IActionResult> Create(KindergartenDto dto, List<IFormFile>? files)
         {
             if (!ModelState.IsValid)
                 return View(dto);
@@ -100,14 +101,13 @@ namespace ShopTARge24.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, KindergartenDto dto, List<IFormFile> files)
+        public async Task<IActionResult> Edit(Guid id, KindergartenDto dto, List<IFormFile>? files)
         {
             if (id != dto.Id)
                 return BadRequest();
 
             if (!ModelState.IsValid)
             {
-
                 ViewBag.Files = await _context.KindergartenFiles
                     .Where(f => f.KindergartenId == id)
                     .ToListAsync();
@@ -122,7 +122,7 @@ namespace ShopTARge24.Controllers
                 await _fileService.SaveKindergartenFiles(id, files);
             }
 
-            return RedirectToAction(nameof(Edit), new { id = id });
+            return RedirectToAction(nameof(Edit), new { id });
         }
 
         [HttpPost]
