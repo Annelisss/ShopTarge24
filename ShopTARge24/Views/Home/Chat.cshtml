@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Chat";
+}
+
+<h2>SignalR Chat</h2>
+
+<input id="userInput" placeholder="Nimi" />
+<input id="messageInput" placeholder="Sõnum" />
+<button id="sendButton">Saada</button>
+
+<ul id="messagesList"></ul>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
+}
