@@ -16,7 +16,12 @@ namespace ShopTARge24.ApplicationServices.Services
 
             //https://developer.accuweather.com/core-weather/text-search?lang=shell#city-search
             string apiKey = Environment.GetEnvironmentVariable("ZUPO_API_KEY")
+<<<<<<< HEAD
     ?? throw new Exception("ZUPO_API_KEY is missing");
+=======
+                 ?? throw new Exception("ZUPO_API_KEY is missing");
+            //var response = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={apiKey}&q={dto.CityName}";
+>>>>>>> 765d16e (Remove API key from code (use env var))
             var baseUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/";
 
             using (var httpClient = new HttpClient())
@@ -86,8 +91,16 @@ namespace ShopTARge24.ApplicationServices.Services
 
         public async Task<AccuLocationWeatherResultDto> AccuWeatherResultWebClient(AccuLocationWeatherResultDto dto)
         {
+<<<<<<< HEAD
             string accuApiKey = Environment.GetEnvironmentVariable("ZUPO_API_KEY")
     ?? throw new Exception("ZUPO_API_KEY is missing");
+=======
+            string apiKey = Environment.GetEnvironmentVariable("ZUPO_API_KEY")
+                            ?? throw new Exception("ZUPO_API_KEY is missing");
+
+            string accuApiKey = apiKey;
+
+>>>>>>> 765d16e (Remove API key from code (use env var))
             string url = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={accuApiKey}&q={dto.CityName}";
 
             using (WebClient client = new WebClient())
